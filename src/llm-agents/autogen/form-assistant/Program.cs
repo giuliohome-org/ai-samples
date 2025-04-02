@@ -18,7 +18,7 @@ var openAIClient = new OpenAIClient(new Uri(openAIEndpoint), new Azure.AzureKeyC
 AzureOpenAIConfig gptConfig = new AzureOpenAIConfig(endpoint: openAIEndpoint, deploymentName: openAIDeploymentName, apiKey: openAiKey);
 var applicationAgent = AgentFactory.CreateFormAgent(openAIClient, openAIDeploymentName);
 var assistantAgent = AgentFactory.CreateAssistantAgent(openAIClient, openAIDeploymentName);
-var user = AgentFactory.CreateUserAgent(openAIClient, openAIDeploymentName);
+var user = AgentFactory.CreateUserAgent(gptConfig);
 
 var userToApplicationTransition = Transition.Create(user, applicationAgent);
 var applicationToAssistantTransition = Transition.Create(applicationAgent, assistantAgent);
