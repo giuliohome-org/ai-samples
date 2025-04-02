@@ -84,18 +84,15 @@ internal static class AgentFactory
         return chatAgent;
     }
 
-    public static IAgent CreateUserAgent(AzureOpenAIConfig gptConfig)
+    public static IAgent CreateUserAgent(OpenAIClient openaiClient, string deployName)
     {
-        var endPoint = gptConfig.Endpoint ?? throw new Exception("Please set AZURE_OPENAI_ENDPOINT environment variable.");
-        var apiKey = gptConfig.ApiKey ?? throw new Exception("Please set AZURE_OPENAI_API_KEY environment variable.");
-        var openaiClient = new OpenAIClient(new Uri(endPoint), new Azure.AzureKeyCredential(apiKey));
 
         var openaiMessageConnector = new OpenAIChatRequestMessageConnector();
 
         var chatAgent = new OpenAIChatAgent(
             openAIClient: openaiClient,
             name: "user",
-            modelName: gptConfig.DeploymentName,
+            modelName: deployName,
             systemMessage: """
             You are a user who is filling an application form. Simply provide the information as requested and answer the questions, don't do anything else.
             
