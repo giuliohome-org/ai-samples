@@ -17,7 +17,8 @@ string openAiKey = config["AZURE_OPENAI_KEY"] ?? Environment.GetEnvironmentVaria
 var openAIClient = new OpenAIClient(openAiKey);
 var applicationAgent = AgentFactory.CreateFormAgent(openAIClient, openAIDeploymentName);
 var assistantAgent = AgentFactory.CreateAssistantAgent(openAIClient, openAIDeploymentName);
-var user = AgentFactory.CreateUserAgent(openAIClient, openAIDeploymentName);
+// var user = AgentFactory.CreateUserAgent(openAIClient, openAIDeploymentName);
+var user = AgentFactory.CreateHumanUserAgent(); // Human user agent
 
 var userToApplicationTransition = Transition.Create(user, applicationAgent);
 var applicationToAssistantTransition = Transition.Create(applicationAgent, assistantAgent);

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections;
 using AutoGen.OpenAI;
 using Azure.AI.OpenAI;
 using FormApplication;
@@ -108,5 +109,39 @@ internal static class AgentFactory
             .RegisterSpectreConsoleOutput();
 
         return chatAgent;
+    }
+
+
+    // Adjusted method to create a terminal input-based user agent
+    public static IAgent CreateHumanUserAgent()
+    {
+        var humanUserAgent = new HumanUserAgent();
+
+        return humanUserAgent;
+    }
+
+    // Custom Agent that simulates user input via the terminal
+    public class HumanUserAgent : IAgent
+    {
+
+        public string Name => "human";
+
+        // Implementing GenerateReplyAsync to get user input and create a TextMessage
+        public async Task<IMessage> GenerateReplyAsync(IEnumerable<IMessage> messages, GenerateReplyOptions? options, CancellationToken cancellationToken)
+        {
+            await Task.Run(() => Console.WriteLine("Please enter your message:"));
+            var message = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(message))
+            {
+                throw new ArgumentException("Message cannot be null or empty.");
+            }
+
+            var textMessage = new TextMessage(Role.User, message, from: Name);
+            Console.WriteLine($"User: {textMessage.GetContent()}");
+
+            return textMessage;
+        }
+
     }
 }
