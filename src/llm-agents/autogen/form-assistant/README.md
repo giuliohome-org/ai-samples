@@ -42,3 +42,12 @@ graph TD
 The multi-agent workflow designed above is useful to mitigate prompt inject attack because of the following reasons:
 - The form agent always invoke `SaveProgress` to collect information and won't respond to any other prompts.
 - The assistant agent doesn't generate response based on the direct user input, it generates response based on the result of `SaveProgress` method invoked by the form agent, which makes prompt inject attack difficult.
+
+### Human user interaction
+
+I've replaced the automatic user agent with a human user typing the answers in the terminal
+
+![immagine](https://github.com/user-attachments/assets/10367c85-87f0-49d8-9da3-06aff962c929)
+
+![immagine](https://github.com/user-attachments/assets/52c4135c-734c-4317-8f37-266b1af481ec)
+
